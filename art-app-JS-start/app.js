@@ -3,12 +3,12 @@
 const artApp = {};
 artApp.key = "zGRPvXMg";
 
-artApp.getArt = function () {
+artApp.getArt = function (animal) {
   const url = new URL("https://www.rijksmuseum.nl/api/en/collection");
   url.search = new URLSearchParams({
     key: artApp.key,
     imgonly: true,
-    q: "monkeys",
+    q: animal,
   });
 
   fetch(url)
@@ -43,8 +43,16 @@ artApp.displayArt = function (arrayOfObjects) {
   });
 };
 
+artApp.events = function () {
+  document.querySelector("#animal").addEventListener("change", function (e) {
+    document.querySelector("#artwork").innerHTML = "";
+    artApp.getArt(this.value);
+  });
+};
+
 artApp.init = function () {
-  artApp.getArt();
+  artApp.events();
+  artApp.getArt("monkey");
 };
 
 artApp.init();
